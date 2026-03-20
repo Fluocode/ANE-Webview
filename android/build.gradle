@@ -1,0 +1,64 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Android Gradle Plugin 8.1.0 (compatible with this Android Studio version)
+        classpath 'com.android.tools.build:gradle:8.1.0'
+    }
+}
+
+// Configure to avoid the build mode error and force Java 8
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        // Force Java 8 strictly
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        options.release = 8
+    }
+}
+
+// Check Java version at startup
+afterEvaluate {
+    println "========================================="
+    println "Java version: ${JavaVersion.current()}"
+    println "Gradle version: ${gradle.gradleVersion}"
+    println "========================================="
+    
+    if (JavaVersion.current() > JavaVersion.VERSION_1_9) {
+        println "WARNING: Java ${JavaVersion.current()} detectado!"
+        println "Gradle 8.0 requiere Java 8-19"
+        println "Configura Java 8, 11, 17 o 19 en Android Studio:"
+        println "File > Settings > Build Tools > Gradle > Gradle JDK"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Task principal para compilar el JAR del ANE
+task buildANE {
+    description = 'Compila el código Java y genera el JAR para el ANE'
+    group = 'build'
+    dependsOn ':library:buildJar'
+    
+    doLast {
+        println "========================================="
+        println "JAR del ANE compilado exitosamente"
+        println "Ubicación: library/build/libs/WebViewANE-1.0.0.jar"
+        println "========================================="
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+    delete 'build'
+    delete 'library/build'
+}

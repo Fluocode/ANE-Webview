@@ -1,0 +1,111 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.fluocode.ane.webview'
+    compileSdkVersion 33
+    
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    
+    // Force Java 8 to avoid compatibility issues
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['../src']
+            }
+        }
+    }
+    
+    // Disable lint to speed up compilation
+    lintOptions {
+        abortOnError false
+    }
+    
+    // Do not generate an APK; only compile classes
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+            // Do not generate Android outputs
+        }
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    // Flash Runtime Extensions JAR
+    implementation files('../libs/FlashRuntimeExtensions.jar')
+}
+
+// Task to generate the JAR from compiled Android classes
+task generateJar(type: Jar) {
+    archiveBaseName = 'WebViewANE'
+    archiveVersion = '1.0.0'
+    
+    destinationDirectory = file("$buildDir/libs")
+    
+    doFirst {
+        // Search for compiled classes in different possible locations
+        def possiblePaths = [
+            "$buildDir/intermediates/javac/release/classes",
+            "$buildDir/intermediates/javac/release/compileReleaseJavaWithJavac/classes",
+            "$buildDir/intermediates/compile_release_java/classes",
+            "$buildDir/intermediates/classes/release",
+            "$buildDir/classes/java/main"
+        ]
+        
+        def classesDir = null
+        for (path in possiblePaths) {
+            def dir = file(path)
+            if (dir.exists() && dir.isDirectory()) {
+                classesDir = dir
+                break
+            }
+        }
+        
+        if (classesDir == null) {
+            throw new GradleException("No se encontraron clases compiladas. Ejecuta 'assembleRelease' primero.")
+        }
+        
+        // Include all classes from the package
+        from(classesDir) {
+            include('com/fluocode/ane/webview/**')
+        }
+        
+        println "Usando clases de: ${classesDir.path}"
+    }
+    
+    doLast {
+        println "JAR generado en: ${archiveFile.get().asFile.path}"
+    }
+}
+
+// Task to compile and generate a JAR in one step
+task buildJar(dependsOn: ['assembleRelease', 'generateJar']) {
+    description = 'Compila el código Java y genera el JAR para el ANE'
+    group = 'build'
+    
+    doLast {
+        println "========================================="
+        println "JAR del ANE compilado exitosamente"
+        println "Ubicación: ${generateJar.archiveFile.get().asFile.path}"
+        println "========================================="
+    }
+}
+

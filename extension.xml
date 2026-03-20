@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension xmlns="http://ns.adobe.com/air/extension/22.0">
+    <id>com.fluocode.ane.Webview</id>
+    <versionNumber>1.0.0</versionNumber>
+    <platforms> 
+        <platform name="Android-ARM">
+            <applicationDeployment>
+                <nativeLibrary>WebViewANE.jar</nativeLibrary>
+                <initializer>com.fluocode.ane.webview.WebViewANE</initializer>
+                <finalizer>com.fluocode.ane.webview.WebViewANE</finalizer>
+            </applicationDeployment>
+        </platform>
+        <platform name="Android-ARM64">
+            <applicationDeployment>
+                <nativeLibrary>WebViewANE.jar</nativeLibrary>
+                <initializer>com.fluocode.ane.webview.WebViewANE</initializer>
+                <finalizer>com.fluocode.ane.webview.WebViewANE</finalizer>
+            </applicationDeployment>
+        </platform>
+        <platform name="Android-x86">
+            <applicationDeployment>
+                <nativeLibrary>WebViewANE.jar</nativeLibrary>
+                <initializer>com.fluocode.ane.webview.WebViewANE</initializer>
+                <finalizer>com.fluocode.ane.webview.WebViewANE</finalizer>
+            </applicationDeployment>
+        </platform>
+		<platform name="iPhone-ARM">
+			<applicationDeployment>
+				<nativeLibrary>libWebViewANE.a</nativeLibrary>
+				<initializer>WebViewANEInitializer</initializer>
+				<finalizer>WebViewANEFinalizer</finalizer>
+			</applicationDeployment>
+		</platform>
+		<platform name="iPhone-x86">
+			<applicationDeployment>
+				<nativeLibrary>libWebViewANE.a</nativeLibrary>
+				<initializer>WebViewANEInitializer</initializer>
+				<finalizer>WebViewANEFinalizer</finalizer>
+			</applicationDeployment>
+		</platform>
+        <platform name="default"> 
+            <applicationDeployment/> 
+        </platform> 
+    </platforms>
+</extension>
+

@@ -1,0 +1,60 @@
+# Build outputs
+build/
+*.ane
+*.swc
+*.swf
+*.apk
+*.ipa
+*.app
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Certificates
+*.p12
+*.keystore
+*.jks
+*.cer
+*.pem
+
+# Xcode
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+*.xcworkspace
+xcuserdata/
+DerivedData/
+
+# Android
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+local.properties
+proguard/
+
